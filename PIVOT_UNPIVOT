@@ -1,0 +1,66 @@
+pivot
+
+
+  SELECT [BUD_0]           ,[PARAXI_0]           ,[FCY_0]           ,[FIY_0]
+           ,[AXI1_0]           ,[CCE1_0]           ,[AXI2_0]           ,[CCE2_0]
+           ,[AXI3_0]           ,[CCE3_0]           ,[CNA_0] 
+                 , MAX(CASE WHEN PERIOD = 1 THEN AMOUNT ELSE NULL END) AMT_1
+                    , MAX(CASE WHEN PERIOD = 2 THEN AMOUNT ELSE NULL END) AMT_2
+                 , MAX(CASE WHEN PERIOD = 3 THEN AMOUNT ELSE NULL END) AMT_3
+                    , MAX(CASE WHEN PERIOD = 4 THEN AMOUNT ELSE NULL END) AMT_4
+                    , MAX(CASE WHEN PERIOD = 5 THEN AMOUNT ELSE NULL END) AMT_5
+                    , MAX(CASE WHEN PERIOD = 6 THEN AMOUNT ELSE NULL END) AMT_6
+                    , MAX(CASE WHEN PERIOD = 7 THEN AMOUNT ELSE NULL END) AMT_7
+                    , MAX(CASE WHEN PERIOD = 8 THEN AMOUNT ELSE NULL END) AMT_8
+                    , MAX(CASE WHEN PERIOD = 9 THEN AMOUNT ELSE NULL END) AMT_9
+                    , MAX(CASE WHEN PERIOD = 10 THEN AMOUNT ELSE NULL END) AMT_10
+                    , MAX(CASE WHEN PERIOD = 11 THEN AMOUNT ELSE NULL END) AMT_11
+                    , MAX(CASE WHEN PERIOD = 12 THEN AMOUNT ELSE NULL END) AMT_12
+                    ,0,0,0,0,0,0,0,0,0,0,0,0,0
+                    ,0,0 ,0 ,0 ,0
+           ,0  ,0,0 ,0
+                ,0 ,0,0,0
+           ,0    ,0   ,0  ,0
+           ,0,0 ,0 ,0
+           ,0 ,0 ,0  ,0
+           ,0    ,0       , 0
+                FROM TEMPL_V7_X3V5.BUD_TABLE NB
+                GROUP BY 
+                [BUD_0]           ,[PARAXI_0]           ,[FCY_0]           ,[FIY_0]
+           ,[AXI1_0]           ,[CCE1_0]           ,[AXI2_0]           ,[CCE2_0]
+           ,[AXI3_0]           ,[CCE3_0]           ,[CNA_0]   
+                
+ 
+ 
+ 
+ Unpivot
+ 
+ 
+ 
+
+SELECT  ACCTID,
+Con_Company_dim,FSCSYR,FSCSDSG,FSCSCURN,CURNTYPE,AUDTDATE,AUDTTIME,AUDTUSER,AUDTORG
+,SWRVL,CODERVL,SCURNDEC,ACTIVITYSW , PERIOD,AMOUNT
+FROM 
+
+	[SEI_CONSO].GLAFS
+	CROSS APPLY 
+	  (
+		  VALUES 
+     
+			   (0, OPENBAL)
+			   ,(1, NETPERD1)
+			   ,(2, NETPERD2)
+			   ,(3, NETPERD3)
+			   ,(4, NETPERD4)
+			   ,(5, NETPERD5)
+			   ,(6, NETPERD6)
+			   ,(7, NETPERD7)
+			   ,(8, NETPERD8)
+			   ,(9, NETPERD9)
+			   ,(10, NETPERD10)
+			   ,(11, NETPERD11)
+			   ,(12, NETPERD12)
+		  ) t(PERIOD, AMOUNT)
+
+where AMOUNT <>0 AND CURNTYPE = 'F' AND FSCSDSG <> 'A' ;
